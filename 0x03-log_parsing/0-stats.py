@@ -1,27 +1,45 @@
 #!/usr/bin/python3
+
+""" script that reads stdin line by line and computes metrics """
+
 import sys
 
 
-def compute_metrics():
-    total_lines = 0
-    total_chars = 0
+def printsts(dic, size):
+    """ Prints information """
+    print("File size: {:d}".format(size))
+    for i in sorted(dic.keys()):
+        if dic[i] != 0:
+            print("{}: {:d}".format(i, dic[i]))
 
+
+sts = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0,
+       "404": 0, "405": 0, "500": 0}
+
+count = 0
+size = 0
+
+try:
     for line in sys.stdin:
-        total_lines += 1
-        total_chars += len(line)
+        if count != 0 and count % 10 == 0:
+            printsts(sts, size)
 
-    average_line_length = total_chars / total_lines if total_lines > 0 else 0
+        stlist = line.split()
+        count += 1
 
-    return total_lines, total_chars, average_line_length
+        try:
+            size += int(stlist[-1])
+        except:
+            pass
+
+        try:
+            if stlist[-2] in sts:
+                sts[stlist[-2]] += 1
+        except:
+            pass
+    printsts(sts, size)
 
 
-if __name__ == "__main__":
-    try:
-        lines, chars, avg_length = compute_metrics()
-        print(f"Total lines: {lines}")
-        print(f"Total characters: {chars}")
-        print(f"Average line length: {avg_length:.2f}")
-    except KeyboardInterrupt:
-        print("\nScript interrupted by user.")
-    except Exception as e:
-        print(f"Error: {e}")
+except KeyboardInterrupt:
+    printsts(sts, size)
+    raise
