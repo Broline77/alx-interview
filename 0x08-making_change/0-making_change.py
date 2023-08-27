@@ -2,7 +2,7 @@
 """
 makeChange Algorithm
 """
-START_DATA = 0
+count = 0
 
 
 def makeChange(coins, total):
@@ -13,7 +13,7 @@ def makeChange(coins, total):
         return 0
     coins.sort()
     coins.reverse()
-    fewest = START_DATA
+    fewest = count
     for coin in coins:
         if total <= 0:
             break
