@@ -1,33 +1,25 @@
-    #!/usr/bin/python3
+#!/usr/bin/python3
 """
-Change comes from within
+makeChange Algorithm
 """
+START_DATA = 0
 
 
 def makeChange(coins, total):
+    """ With a pile of coins of different values,
+    return fewest number of coins needed to get a total amount.
     """
-    Given a pile of coins of different values, determine the fewest
-    number of coins needed to meet a given amount total.
-
-    """
-    if total <= 0:
+    if total < 1:
         return 0
-
-    placeholder = total + 1
-
-    memo = {0: 0}
-
-    for i in range(1, total + 1):
-        memo[i] = placeholder
-
-        for coin in coins:
-            current = i - coin
-            if current < 0:
-                continue
-
-            memo[i] = min(memo[current] + 1, memo[i])
-
-    if memo[total] == total + 1:
+    coins.sort()
+    coins.reverse()
+    fewest = START_DATA
+    for coin in coins:
+        if total <= 0:
+            break
+        buff = total // coin
+        fewest += buff
+        total -= (buff * coin)
+    if total != 0:
         return -1
-
-    return memo[total]
+    return fewest
