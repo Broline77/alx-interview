@@ -13,6 +13,7 @@ def island_perimeter(grid):
 
     for i in range(len(grid)):
         for j in range(len(grid[i])):
+            
             neighbors = [(i - 1, j), (i, j - 1), (i, j + 1), (i + 1, j)]
             is_valid_neighbor = [1 if k[0] in range(row) and k[1] in range(col) else 0
                                for k in neighbors]
